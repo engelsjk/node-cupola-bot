@@ -40,7 +40,7 @@ In order to get night lights imagery from the Mapbox Static API, you have to do 
 
 ### RUN THE BOT
 
-The project is set up to run either locally or as a Lambda function (as a Twitter bot). To run locally, you'll need to create a config.js file with your own Mapbox access token, and Twitter credentials if needed. If no Twitter credentials are included in config.js, it'll still save an image locally in the tmp folder.
+The project is set up to run either locally or in a Lambda function as a Twitter bot. To run locally, you'll need to create a config.js file with your own Mapbox access token, and Twitter credentials if needed. If no Twitter credentials are included in config.js, it'll still save an image locally in the tmp folder.
 
 ~~~~
 module.exports = {
