@@ -11,7 +11,7 @@ The Overview Effect on Twitter, courtesy of the International Space Station's Cu
 <img src="images/cupola-bot.png" height="500px">
 </p>
 
-### WHY DID YOU MAKE THIS?
+### WHY DID I MAKE THIS?
 
 I recently came across a [photo on Twitter of the Earth](https://twitter.com/archillect/status/975441719520120837), taken from the [International Space Station's (ISS) Cupola module](https://en.wikipedia.org/wiki/Cupola_(ISS_module)), a large windowed observatory added to the ISS in 2010. It offers a [unique and beautiful perspective of the Earth](https://www.youtube.com/watch?v=xngkqPovLu8) for astronauts on the ISS, a view I heart-achingly wish I could experience for myself.
 
