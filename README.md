@@ -7,13 +7,13 @@ The Overview Effect on Twitter, courtesy of the International Space Station's Cu
 
 Cupola Bot does its best to simulate the Overview Effect from the perspective of the cupola module on the International Space Station (ISS). Every 30 minutes (3 times an orbit), it tweets an image of the Earth at the current location of the real ISS, night or day!
 
-![](images/cupola-bot.png)
+<p align="center">
+<img src="images/cupola-bot.png" height="500px">
+</p>
 
 ### WHY DID YOU MAKE THIS?
 
-<a href="https://twitter.com/archillect/status/975441719520120837"><img src="images/inspiration.jpg" height="300px"></a>
-
-This is a photo of the Earth taken from the [International Space Station's (ISS) Cupola module](https://en.wikipedia.org/wiki/Cupola_(ISS_module)), a large windowed observatory added to the ISS in 2010. It offers a [unique and beautiful perspective of the Earth](https://www.youtube.com/watch?v=xngkqPovLu8) for astronauts on the ISS, a view I heart-achingly wish I could experience for myself.
+I recently came across a [photo on Twitter of the Earth](https://twitter.com/archillect/status/975441719520120837), taken from the [International Space Station's (ISS) Cupola module](https://en.wikipedia.org/wiki/Cupola_(ISS_module)), a large windowed observatory added to the ISS in 2010. It offers a [unique and beautiful perspective of the Earth](https://www.youtube.com/watch?v=xngkqPovLu8) for astronauts on the ISS, a view I heart-achingly wish I could experience for myself.
 
 But I'd also been thinking lately about satellite imagery and its impact on humankind. We're in this fascinating era of increasingly ubiquituous access to space and space data, and I've been trying to think about its longterm impact on human life, culture and society. The cupola photo above reminded me of the [Overview Effect phenomenon](https://vimeo.com/55073825), the concept that views from outerspace have a transformative ability to positively alter someone's perspective of the planet and humankind.  
 
