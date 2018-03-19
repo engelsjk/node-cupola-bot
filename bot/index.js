@@ -18,6 +18,7 @@ const image_settings = {
 ///
 
 function runCupolaBot() {
+
     var iss_position = iss.getISSPosition();
     var daylight = iss.checkDaylight(iss_position);
     

@@ -16,7 +16,6 @@ function loadImage(image_settings) {
     fs.readFile(image_settings.filepath_image, { encoding: 'base64' }, (err, data) => {
         if (err) { console.error(err) } ;
         var image = data;
-        console.log(image)
         postTweet(image);
     });
 }

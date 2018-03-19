@@ -17,10 +17,18 @@ function getISSPosition() {
 function checkDaylight(iss_position) {
     var lat = iss_position.latitude;
     var lng = iss_position.longitude;
-    var datetime = new Date();
+    var now = new Date();
     
-    var suntimes = suncalc.getTimes(datetime, lat, lng);
-    var daylight = datetime < suntimes.nightEnd ? 0 : 1;
+    var times = suncalc.getTimes(now, lat, lng);
+
+    var daylight = 1;
+    if (now < times.sunriseEnd) {
+        daylight = 0;
+    } else if (now < times.dusk) {
+        daylight = 1;
+    } else {
+        daylight = 0;
+    }
 
     return daylight;
 }
