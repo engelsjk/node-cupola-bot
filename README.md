@@ -5,7 +5,7 @@ The Overview Effect on Twitter, courtesy of the International Space Station's Cu
 
 ### WHAT IS THIS?
 
-[Cupola Bot](https://twitter.com/CupolaBot)) does its best to simulate the Overview Effect from the perspective of the cupola module on the International Space Station (ISS). Every 30 minutes (3 times an orbit), it tweets an image of the Earth at the current location of the real ISS, night or day!
+[Cupola Bot](https://twitter.com/CupolaBot) does its best to simulate the Overview Effect from the perspective of the cupola module on the International Space Station (ISS). Every 30 minutes (3 times an orbit), it tweets an image of the Earth at the current location of the real ISS, night or day!
 
 <p align="center">
 <img src="images/cupola-bot.png" height="500px">
