@@ -21,14 +21,16 @@ So I decided to try and create my own Overview Effect in the form of a Twitter b
 
 ### HOW DOES IT WORK?
 
-To do that, it does the following...
+Cupola Bot is a Node.js project that runs either locally or as a Twitter bot on AWS Lambda.
 
-* Get the current location of the International Space Station from http://open-notify.org/Open-Notify-API/ISS-Location-Now/
-* Calculate sunrise/sunset times for the ISS location using mourner's [SunCalc package](https://github.com/mourner/suncalc)
-* Next, get an image from the Mapbox Static API...
-  * If it's day time, use the basic Mapbox Satellite imagery.
-  * If it's night time, use a custom Mapbox style made w/ NASA's Suomi NPP VIIRS night lights imagery.
-* Overlay a transparent cupola window image on top of the satellite image.
+To crate Overview Effect images, it does the following...
+
+* Gets the current location of the International Space Station from http://open-notify.org/Open-Notify-API/ISS-Location-Now/
+* Calculates sunrise/sunset times for the ISS location using mourner's [SunCalc package](https://github.com/mourner/suncalc)
+* Next, gets an image from the Mapbox Static API...
+  * If it's day time, it uses the basic Mapbox Satellite imagery.
+  * If it's night time, it uses a custom Mapbox style made w/ NASA's Suomi NPP VIIRS night lights imagery.
+* Overlays a transparent cupola window image on top of the satellite image.
 * And voila, the Overview Effect! 
 
 In order to get night lights imagery from the Mapbox Static API, you have to do a little bit of map/imagery processing up front...
