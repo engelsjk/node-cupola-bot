@@ -22,6 +22,11 @@ function loadImage(image_settings) {
 
 function postTweet(image){
 
+    if (!('twitter_consumer_key' in config)) {
+        console.log('No Twitter credentials found!');
+        return
+    }
+
     var status = '';
     var altText = 'cupola-bot';
 
