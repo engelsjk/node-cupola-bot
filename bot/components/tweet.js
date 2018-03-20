@@ -1,28 +1,32 @@
+'use strict';
+
 const fs = require('fs');
 const twit = require('twit')
 const config = require('../config.js');
 
-// REFERENCES
+///
 
-module.exports = {
-	sendTweet: sendTweet
-};
+var settings = {};
 
-function sendTweet(image_settings) {
-    loadImage(image_settings);
+const init_tweet = ( files ) => {
+    const rootpath = process.env.LAMBDA_TASK_ROOT ? '/tmp/' : 'tmp/';
+    settings.filepath_image = rootpath + files.filename_image;
 }
 
-function loadImage(image_settings) {
-    fs.readFile(image_settings.filepath_image, { encoding: 'base64' }, (err, data) => {
+const send_tweet = ( ) => {
+    load_image( );
+}
+
+const load_image = ( ) => {
+    fs.readFile( settings.filepath_image, { encoding: 'base64' }, (err, image) => {
         if (err) { console.error(err) } ;
-        var image = data;
-        postTweet(image);
+        post_tweet( image );
     });
 }
 
-function postTweet(image){
+const post_tweet = ( image ) => {
 
-    if (!('twitter_consumer_key' in config)) {
+    if ( !('twitter_consumer_key' in config) ) {
         console.log('No Twitter credentials found!');
         return
     }
@@ -38,12 +42,12 @@ function postTweet(image){
         timeout_ms:           60*1000
     })
 
-    T.post('media/upload', { media_data: image }, function (err, data, response) {
+    T.post( 'media/upload', { media_data: image }, function (err, data, response) {
         if (!err) {
             var mediaIdStr = data.media_id_string
             var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
         } else { console.error(err) }
-        T.post('media/metadata/create', meta_params, function (err, data, response) {
+        T.post( 'media/metadata/create', meta_params, function (err, data, response) {
             if (!err) {
                 var params = { status: status, media_ids: [mediaIdStr] }
                 T.post('statuses/update', params, function (err, data, response) {
@@ -54,3 +58,9 @@ function postTweet(image){
     })
 
 }
+
+const tweet = {
+    init_tweet: init_tweet,
+    send_tweet: send_tweet
+};
+module.exports = tweet;

@@ -1,27 +1,26 @@
+'use strict';
+
 const request = require('sync-request');
 const suncalc = require('suncalc');
 const parseString = require('xml2js').parseString;
 
-module.exports = {
-    getISSPosition: getISSPosition,
-    checkDaylight: checkDaylight
-}
+///
 
-function getISSPosition() {
+const get_iss_position = () => {
     const url = `http://api.open-notify.org/iss-now.json`;
-    var res = request('GET', url);
-    var iss = JSON.parse(res.getBody('utf-8'));
+    let res = request( 'GET', url );
+    let iss = JSON.parse( res.getBody('utf-8') );
     return iss.iss_position;
 }
 
-function checkDaylight(iss_position) {
-    var lat = iss_position.latitude;
-    var lng = iss_position.longitude;
-    var now = new Date();
+const check_daylight = ( iss_position ) => {
+    let lat = iss_position.latitude;
+    let lng = iss_position.longitude;
+    let now = new Date();
     
-    var times = suncalc.getTimes(now, lat, lng);
+    let times = suncalc.getTimes(now, lat, lng);
 
-    var daylight = 1;
+    let daylight = 1;
     if (now < times.sunriseEnd) {
         daylight = 0;
     } else if (now < times.dusk) {
@@ -32,4 +31,10 @@ function checkDaylight(iss_position) {
 
     return daylight;
 }
+
+const iss = {
+    get_iss_position: get_iss_position,
+    check_daylight: check_daylight
+};
+module.exports = iss;
 

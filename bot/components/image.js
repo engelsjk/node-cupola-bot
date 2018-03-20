@@ -1,76 +1,90 @@
+'use strict';
+
 const request = require('sync-request');
 const fs = require('fs');
 const jimp = require('jimp');
-
-const tweet = require('./tweet.js');
-
 const config = require('../config.js');
 
-module.exports = {
-    getSatelliteImage: getSatelliteImage
+///
+
+var settings = {
+    zoom_day: 7.75,
+    zoom_night: 5.5,
+    imagesize: "736x1105"
+};
+
+const init_image = ( files, handle_image_processing_end ) => {
+    const rootpath = process.env.LAMBDA_TASK_ROOT ? '/tmp/' : 'tmp/';
+    
+    settings.filepath_image = rootpath + files.filename_image;
+    settings.filepath_image_satellite = rootpath + files.filename_image_satellite;
+    settings.filepath_mask = files.filepath_mask;
+
+    settings.access_token = config['mapbox_token'];
+    settings.mapbox_style_night = config['mapbox_style_night'];
+
+    settings.handle_image_processing_end = handle_image_processing_end;
 }
 
-function getSatelliteImage(iss_position, daylight, image_settings) {
+const start_image_processing = ( iss_position, daylight ) => {
+    get_satellite_image ( iss_position, daylight );
+}
 
-    var lat = iss_position.latitude;
-    var lng = iss_position.longitude;
-    var day_or_night = daylight ? 'day' : 'night';
-    
-    const access_token = config['mapbox_token'];
+const get_satellite_image = ( iss_position, daylight ) => {
 
-    const zoom_day = image_settings.zoom_day;
-    const zoom_night = image_settings.zoom_night;
-    const imagesize = image_settings.imagesize;
-    const mapstyle = image_settings.mapstyle;
+    let lat = iss_position.latitude;
+    let lng = iss_position.longitude;
+    let day_or_night = daylight ? 'day' : 'night';
 
-    var urls = {
-        'day': `https://api.mapbox.com/v4/mapbox.satellite/${lng},${lat},${zoom_day}/${imagesize}.png?access_token=${access_token}`,
-        'night': `https://api.mapbox.com/styles/v1/${mapstyle}/static/${lng},${lat},${zoom_night}/${imagesize}?access_token=${access_token}`
+    let urls = {
+        'day': `https://api.mapbox.com/v4/mapbox.satellite/${lng},${lat},${settings.zoom_day}/${settings.imagesize}.png?access_token=${settings.access_token}`,
+        'night': `https://api.mapbox.com/styles/v1/${settings.mapbox_style_night}/static/${lng},${lat},${settings.zoom_night}/${settings.imagesize}?access_token=${settings.access_token}`
     };
 
-    var url = urls[day_or_night];
+    let res = request( 'GET', urls[day_or_night] );
+    let body = res.getBody();
 
-    var res = request('GET', url);
-    var body = res.getBody();
-
-    fs.writeFile(image_settings.filepath_image_satellite, body, 'binary', (err) => {
-        if (err) { console.error(err) } else { 
-            console.log('Satellite image saved!')
-            getCupolaImage(image_settings);
-        };
-    })
-
+    fs.writeFile( settings.filepath_image_satellite, body, 'binary', handle_satellite_image_file );
 }
 
-function saveCupolaImage(image_mask, image_settings){
+const handle_satellite_image_file = ( err ) => {
+    if (err) { console.error(err) } else { 
+        console.log('Satellite image saved!')
+        load_cupola_mask();
+    }; 
+}
 
-    jimp.read(image_settings.filepath_image_satellite).then(function (image) {
-        var image_satellite = image;
-        image_satellite.composite(image_mask, 0, 0);
-
-        image_satellite.getBuffer(jimp.MIME_PNG, function(err, src){
-            fs.writeFile(image_settings.filepath_image, src, 'binary', (err) => {
-                if (err) { console.error(err) } else { 
-                    console.log('Cupola image saved!')
-                    tweet.sendTweet(image_settings);
-                };
-            })
+const load_cupola_mask = ( ) => {
+    jimp.read( settings.filepath_mask )
+        .then( function ( image ) {
+            save_cupola_image( image );
+        }).catch(function (err) {
+            console.error(err);
         });
-        
-    }).catch(function (err) {
-        console.error(err);
-    });
 }
 
-function getCupolaImage(image_settings) {
-    loadCupolaMask(image_settings);
+const save_cupola_image = ( image_mask ) => {
+
+    jimp.read( settings.filepath_image_satellite )
+        .then( function (image) {
+            image.composite(image_mask, 0, 0);
+            image.getBuffer( jimp.MIME_PNG, function( err, src ) {
+                fs.writeFile( settings.filepath_image, src, 'binary', handle_cupola_image_file )
+            });
+        }).catch(function (err) {
+            console.error(err);
+        });
 }
 
-function loadCupolaMask(image_settings) {
-    jimp.read(image_settings.filepath_mask).then(function (image) {
-        var image_mask = image;
-        saveCupolaImage(image_mask, image_settings);
-    }).catch(function (err) {
-        console.error(err);
-    });
+const handle_cupola_image_file = ( err ) => {
+    if (err) { console.error(err) } else { 
+        console.log('Cupola image saved!')
+        settings.handle_image_processing_end();
+    }; 
 }
+
+const image = {
+    init_image: init_image,
+    start_image_processing: start_image_processing
+};
+module.exports = image;
