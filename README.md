@@ -1,5 +1,5 @@
 # node-cupola-bot
-The Overview Effect on Twitter, courtesy of the International Space Station's Cupola module using Mapbox & NASA's VIIRS imagery.
+The Overview Effect on Twitter! A bot simulating the view from the International Space Station's Cupola module using Mapbox & NASA's VIIRS imagery.
 
 ![](images/cupola-header.png)
 
@@ -15,7 +15,7 @@ The Overview Effect on Twitter, courtesy of the International Space Station's Cu
 
 I recently came across a [photo on Twitter of the Earth](https://twitter.com/archillect/status/975441719520120837), taken from the [International Space Station's (ISS) Cupola module](https://en.wikipedia.org/wiki/Cupola_(ISS_module)), a large windowed observatory added to the ISS in 2010. It offers a [unique and beautiful perspective of the Earth](https://www.youtube.com/watch?v=xngkqPovLu8) for astronauts on the ISS, a view I heart-achingly wish I could experience for myself.
 
-But I'd also been thinking lately about satellite imagery and its impact on humankind. We're in this fascinating era of increasingly ubiquituous access to space and space data, and I've been trying to think about its longterm impact on human life, culture and society. The cupola photo above reminded me of the [Overview Effect phenomenon](https://vimeo.com/55073825), the concept that views from outerspace have a transformative ability to positively alter someone's perspective of the planet and humankind.  
+But I'd also been thinking lately about satellite imagery and its impact on humankind. We're in this fascinating era of increasingly ubiquituous access to space and space data, and I've been trying to think about its longterm impact on human life, culture and society. The cupola photo above reminded me of the [Overview Effect phenomenon](https://vimeo.com/55073825), the concept that views from outer space have a transformative ability to positively alter someone's perspective of the planet and humankind.  
 
 So I decided to try and create my own Overview Effect in the form of a Twitter bot!
 
@@ -56,4 +56,6 @@ Once you have your config.js file, you should just be able to run the main index
 node index.js
 ~~~~
 
-A new cupola image should then save to the tmp folder. Hope you enjoy the view!
+A new cupola image should then save to the tmp folder. 
+
+Hope you enjoy the view!
