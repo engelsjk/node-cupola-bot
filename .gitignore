@@ -1,3 +1,9 @@
 config.js
+bot/node_modules
+*.zip
+*.sh
+*.txt
 notes-cupola-bot.txt
 images/geotiff/*
+images/*.xcf
+images/*.svg

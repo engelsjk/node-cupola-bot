@@ -8,9 +8,9 @@ const config = require('../config.js');
 ///
 
 var settings = {
-    zoom_day: 7.75,
+    zoom_day: 8,
     zoom_night: 5.5,
-    imagesize: "736x1105"
+    imagesize: "736x1105@2x"
 };
 
 const init_image = ( files, handle_image_processing_end ) => {
@@ -37,7 +37,8 @@ const get_satellite_image = ( iss_position, daylight ) => {
     let day_or_night = daylight ? 'day' : 'night';
 
     let urls = {
-        'day': `https://api.mapbox.com/v4/mapbox.satellite/${lng},${lat},${settings.zoom_day}/${settings.imagesize}.png?access_token=${settings.access_token}`,
+        // 'day': `https://api.mapbox.com/v4/mapbox.satellite/${lng},${lat},${settings.zoom_day}/${settings.imagesize}.png?access_token=${settings.access_token}`, // DEPRECATED BY MAPBOX
+        'day': `https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${lng},${lat},${settings.zoom_day}/${settings.imagesize}?access_token=${settings.access_token}`,
         'night': `https://api.mapbox.com/styles/v1/${settings.mapbox_style_night}/static/${lng},${lat},${settings.zoom_night}/${settings.imagesize}?access_token=${settings.access_token}`
     };
 

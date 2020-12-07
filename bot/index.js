@@ -28,7 +28,9 @@ exports.handler = function( event, context, callback ) {
     run_cupola_bot();
 }
 
-if (!process.env.LAMBDA_TASK_ROOT) { exports.handler(); }
+if (!process.env.LAMBDA_TASK_ROOT) { 
+    run_cupola_bot();
+}
 
 
 
