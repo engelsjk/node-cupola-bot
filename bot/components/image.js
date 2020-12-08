@@ -10,7 +10,7 @@ const config = require('../config.js');
 var settings = {
     zoom_day: 8,
     zoom_night: 5.5,
-    imagesize: "736x1105@2x"
+    imagesize: "736x1105"
 };
 
 const init_image = ( files, handle_image_processing_end ) => {
