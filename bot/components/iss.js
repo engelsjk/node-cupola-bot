@@ -13,6 +13,14 @@ const get_iss_position = () => {
     return iss.iss_position;
 }
 
+const get_geonames = ( iss_position ) => {
+    let user = process.env.USER
+    const url = `http://api.geonames.org/findNearbyJSON?lat=${iss_position.latitude}&lng=${iss_position.longitude}&username=${user}`;
+    let res = request( 'GET', url);
+    let geonames = JSON.parse( res.getBody('utf-8') );
+    return geonames.geonames;
+}
+
 const check_daylight = ( iss_position ) => {
     let lat = iss_position.latitude;
     let lng = iss_position.longitude;
@@ -34,7 +42,8 @@ const check_daylight = ( iss_position ) => {
 
 const iss = {
     get_iss_position: get_iss_position,
-    check_daylight: check_daylight
+    check_daylight: check_daylight,
+    get_geonames: get_geonames
 };
 module.exports = iss;
 
