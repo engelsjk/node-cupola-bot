@@ -1,4 +1,4 @@
-const iss = require('./components/iss.js');
+const station = require('./components/station.js');
 const image = require('./components/image.js');
 const tweet = require('./components/tweet.js');
 
@@ -19,27 +19,28 @@ const run_cupola_bot = () => {
     var f = tweet.send_tweet;
 
     if(process.env.DEBUG == "1"){
-	f = noop;
+	    f = noop;
     }
 
     image.init_image( files, f );
     tweet.init_tweet( files );
 
-    let iss_position = iss.get_iss_position();
-    let daylight = iss.check_daylight( iss_position );
-    let geonames = iss.get_geonames( iss_position );
-    console.log(geonames)
+    let iss = station.get_iss();
+    let daylight = station.check_daylight( iss );
+    let geonames = station.get_geonames( iss );
 
     if(process.env.DEBUG == "1"){
-    	console.log("iss: " + iss_position.latitude + "," + iss_position.longitude);
-	console.log("daylight: " + daylight);
+        console.log(`timestamp: ${iss.timestamp}`);
+    	console.log(`iss: ${iss.iss_position.latitude},${iss.iss_position.longitude}`);
+        console.log(`daylight: ${daylight}`);
+        console.log(geonames)
     }
 
-    image.start_image_processing( iss_position, daylight );
+    image.start_image_processing( iss, daylight );
 }
 
 exports.handler = function( event, context, callback ) {
-    console.log('Run Cupola Bot...');
+    console.log('run_cupola_bot...');
     run_cupola_bot();
 }
 

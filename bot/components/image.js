@@ -30,10 +30,10 @@ const start_image_processing = ( iss_position, daylight ) => {
     get_satellite_image ( iss_position, daylight );
 }
 
-const get_satellite_image = ( iss_position, daylight ) => {
+const get_satellite_image = ( iss, daylight ) => {
 
-    let lat = iss_position.latitude;
-    let lng = iss_position.longitude;
+    let lat = iss.iss_position.latitude;
+    let lng = iss.iss_position.longitude;
     let day_or_night = daylight ? 'day' : 'night';
 
     let urls = {

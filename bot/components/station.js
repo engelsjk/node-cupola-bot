@@ -2,34 +2,36 @@
 
 const request = require('sync-request');
 const suncalc = require('suncalc');
-const parseString = require('xml2js').parseString;
 
 ///
 
-const get_iss_position = () => {
+const get_iss = () => {
     const url = `http://api.open-notify.org/iss-now.json`;
     let res = request( 'GET', url );
     if(res.statusCode!=200){
     	return {};
     }
     let iss = JSON.parse( res.getBody('utf-8') );
-    return iss.iss_position;
+    return iss;
 }
 
-const get_geonames = ( iss_position ) => {
+const get_geonames = ( iss ) => {
     let user = process.env.GEONAMES_USERNAME
-    const url = `http://api.geonames.org/findNearbyJSON?lat=${iss_position.latitude}&lng=${iss_position.longitude}&username=${user}`;
+    let lat = iss.iss_position.latitude;
+    let lon = iss.iss_position.longitude;
+
+    const url = `http://api.geonames.org/findNearbyJSON?lat=${lat}&lng=${lon}&username=${user}`;
     let res = request( 'GET', url);
     if(res.statusCode!=200){
-	return {}
+	    return {}
     }
     let geonames = JSON.parse( res.getBody('utf-8') );
-    return geonames.geonames;
+    return geonames;
 }
 
-const check_daylight = ( iss_position ) => {
-    let lat = iss_position.latitude;
-    let lng = iss_position.longitude;
+const check_daylight = ( iss ) => {
+    let lat = iss.iss_position.latitude;
+    let lng = iss.iss_position.longitude;
     let now = new Date();
     
     let times = suncalc.getTimes(now, lat, lng);
@@ -46,10 +48,10 @@ const check_daylight = ( iss_position ) => {
     return daylight;
 }
 
-const iss = {
-    get_iss_position: get_iss_position,
+const station = {
+    get_iss: get_iss,
     check_daylight: check_daylight,
     get_geonames: get_geonames
 };
-module.exports = iss;
+module.exports = station;
 
