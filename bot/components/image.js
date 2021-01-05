@@ -26,8 +26,8 @@ const init_image = ( files, handle_image_processing_end ) => {
     settings.handle_image_processing_end = handle_image_processing_end;
 }
 
-const start_image_processing = ( iss_position, daylight ) => {
-    get_satellite_image ( iss_position, daylight );
+const start_image_processing = ( iss, daylight ) => {
+    get_satellite_image ( iss, daylight );
 }
 
 const get_satellite_image = ( iss, daylight ) => {
@@ -50,7 +50,7 @@ const get_satellite_image = ( iss, daylight ) => {
 
 const handle_satellite_image_file = ( err ) => {
     if (err) { console.error(err) } else { 
-        console.log('Satellite image saved!')
+        console.log('satellite_image_saved')
         load_cupola_mask();
     }; 
 }
@@ -79,7 +79,7 @@ const save_cupola_image = ( image_mask ) => {
 
 const handle_cupola_image_file = ( err ) => {
     if (err) { console.error(err) } else { 
-        console.log('Cupola image saved!')
+        console.log('cupola_image_saved')
         settings.handle_image_processing_end();
     }; 
 }

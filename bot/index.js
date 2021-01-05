@@ -4,7 +4,7 @@ const tweet = require('./components/tweet.js');
 
 ///
 
-const files = {
+const fpaths = {
     filename_image: 'image.png',
     filename_image_satellite: 'image_satellite.png',  
     filepath_mask: 'assets/mask.png'
@@ -22,18 +22,16 @@ const run_cupola_bot = () => {
 	    f = noop;
     }
 
-    image.init_image( files, f );
-    tweet.init_tweet( files );
+    image.init_image( fpaths, f );
+    tweet.init_tweet( fpaths );
 
     let iss = station.get_iss();
     let daylight = station.check_daylight( iss );
-    let geonames = station.get_geonames( iss );
 
     if(process.env.DEBUG == "1"){
-        console.log(`timestamp: ${iss.timestamp}`);
-    	console.log(`iss: ${iss.iss_position.latitude},${iss.iss_position.longitude}`);
-        console.log(`daylight: ${daylight}`);
-        console.log(geonames)
+        let d = new Date(iss.timestamp*1000);
+        let ts = d.toUTCString("en-US", {timeZoneName: "short"}).slice(-11);
+    	console.log(`${iss.iss_position.latitude},${iss.iss_position.longitude} @ ${ts}`);
     }
 
     image.start_image_processing( iss, daylight );

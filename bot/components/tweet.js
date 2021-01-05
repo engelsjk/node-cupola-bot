@@ -6,6 +6,12 @@ const config = require('../config.js');
 
 ///
 
+const files = {
+    filename_image: 'image.png',
+    filename_image_satellite: 'image_satellite.png',  
+    filepath_mask: 'assets/mask.png'
+}
+
 var settings = {};
 
 const init_tweet = ( files ) => {
