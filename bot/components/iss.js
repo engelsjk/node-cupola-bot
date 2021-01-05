@@ -9,14 +9,20 @@ const parseString = require('xml2js').parseString;
 const get_iss_position = () => {
     const url = `http://api.open-notify.org/iss-now.json`;
     let res = request( 'GET', url );
+    if(res.statusCode!=200){
+    	return {};
+    }
     let iss = JSON.parse( res.getBody('utf-8') );
     return iss.iss_position;
 }
 
 const get_geonames = ( iss_position ) => {
-    let user = process.env.USER
+    let user = process.env.GEONAMES_USERNAME
     const url = `http://api.geonames.org/findNearbyJSON?lat=${iss_position.latitude}&lng=${iss_position.longitude}&username=${user}`;
     let res = request( 'GET', url);
+    if(res.statusCode!=200){
+	return {}
+    }
     let geonames = JSON.parse( res.getBody('utf-8') );
     return geonames.geonames;
 }
