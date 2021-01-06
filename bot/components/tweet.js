@@ -1,44 +1,27 @@
 'use strict';
 
-const fs = require('fs');
 const twit = require('twit')
 const config = require('../config.js');
 
 ///
 
-const files = {
-    filename_image: 'image.png',
-    filename_image_satellite: 'image_satellite.png',  
-    filepath_mask: 'assets/mask.png'
+function get_status( iss ) {
+    let d = new Date(iss.timestamp*1000);
+    let ts = d.toISOString("en-US", {timeZoneName: "short"}).slice(-13,-5) + "Z";
+    let status = `${iss.iss_position.latitude},${iss.iss_position.longitude} @ ${ts}`
+    return status;
 }
 
-var settings = {};
-
-const init_tweet = ( files ) => {
-    const rootpath = process.env.LAMBDA_TASK_ROOT ? '/tmp/' : 'tmp/';
-    settings.filepath_image = rootpath + files.filename_image;
-}
-
-const send_tweet = ( ) => {
-    load_image( );
-}
-
-const load_image = ( ) => {
-    fs.readFile( settings.filepath_image, { encoding: 'base64' }, (err, image) => {
-        if (err) { console.error(err) } ;
-        post_tweet( image );
-    });
-}
-
-const post_tweet = ( image ) => {
+async function send_tweet ( img, status ) {
 
     if ( !('twitter_consumer_key' in config) ) {
-        console.log('No Twitter credentials found!');
+        console.log('no twitter credentials found!');
         return
     }
 
-    var status = '';
-    var altText = 'cupola-bot';
+    img = img.slice(23)
+    
+    var altText = `cupola bot: ${status}`;
 
     var T = new twit({
         consumer_key:         config['twitter_consumer_key'],
@@ -48,7 +31,7 @@ const post_tweet = ( image ) => {
         timeout_ms:           60*1000
     })
 
-    T.post( 'media/upload', { media_data: image }, function (err, data, response) {
+    T.post( 'media/upload', { media_data: img }, function (err, data, response) {
         if (!err) {
             var mediaIdStr = data.media_id_string
             var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
@@ -57,7 +40,7 @@ const post_tweet = ( image ) => {
             if (!err) {
                 var params = { status: status, media_ids: [mediaIdStr] }
                 T.post('statuses/update', params, function (err, data, response) {
-                    console.log('Tweet Sent!')
+                    console.log('tweet_sent')
                 })
             } else { console.error(err) }
         })
@@ -66,7 +49,7 @@ const post_tweet = ( image ) => {
 }
 
 const tweet = {
-    init_tweet: init_tweet,
+    get_status: get_status,
     send_tweet: send_tweet
 };
 module.exports = tweet;
